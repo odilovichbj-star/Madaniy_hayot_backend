@@ -15,7 +15,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-change-this-in-production'
 
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'madaniyhayot.uz,www.madaniyhayot.uz,127.0.0.1,localhost').split(',')
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -264,8 +264,20 @@ SWAGGER_SETTINGS = {
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # CORS
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-CORS_ALLOW_ALL_ORIGINS = True  # Development uchun. Productionda o'zgartiring!
+# CORS production sozlamalari
+CORS_ALLOW_ALL_ORIGINS = DEBUG  # Faqat debug vaqtida hamma ruxsat etiladi
+CORS_ALLOWED_ORIGINS = [
+    "https://madaniyhayot.uz",
+    "http://madaniyhayot.uz",
+    "http://localhost:5173",  # Local development
+]
 CORS_ALLOW_CREDENTIALS = True
+
+# CSRF ishonchli domenlar
+CSRF_TRUSTED_ORIGINS = [
+    "https://madaniyhayot.uz",
+    "http://madaniyhayot.uz",
+]
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

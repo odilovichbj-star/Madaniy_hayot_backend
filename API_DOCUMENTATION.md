@@ -1,10 +1,10 @@
 # 📘 Madaniy Hayot — API Documentation
 
-**Base URL:** `http://localhost:8000/api/`
+**Base URL:** `https://madaniyhayot.uz/api/` (Production)
+**Local Dev URL:** `http://localhost:8003/api/`
 
-**Swagger UI:** [http://localhost:8000/swagger/](http://localhost:8000/swagger/)
-**ReDoc:** [http://localhost:8000/redoc/](http://localhost:8000/redoc/)
-**Admin Panel:** [http://localhost:8000/admin/](http://localhost:8000/admin/)
+**Swagger UI:** [https://madaniyhayot.uz/swagger/](https://madaniyhayot.uz/swagger/)
+**Admin Panel:** [https://madaniyhayot.uz/admin/](https://madaniyhayot.uz/admin/)
 
 ---
 
@@ -270,7 +270,7 @@ Bosh sahifa banner ma'lumotlari.
 
 ## 🔐 Admin Panel
 
-**URL:** [http://localhost:8000/admin/](http://localhost:8000/admin/)
+**URL:** [http://localhost:8003/admin/](http://localhost:8003/admin/)
 
 **Login:**
 | Maydon | Qiymat |
@@ -336,9 +336,29 @@ python manage.py migrate
 # Boshlang'ich ma'lumotlarni yuklash
 python seed_data.py
 
-# Serverni ishga tushirish
-python manage.py runserver 8000
+# Serverni ishga tushirish (Local)
+python manage.py runserver 8003
+
+# Productionda ishga tushirish (PM2)
+pm2 start ecosystem.config.js
+pm2 save
+pm2 startup
 ```
+
+---
+
+## 🏗️ Deployment (Nginx + PM2)
+
+Ushbu loyiha Nginx va PM2 orqali deploy qilishga tayyorlangan.
+
+### Nginx Config:
+`/api/` va `/admin/` yo'llari 8003 portiga (`proxy_pass http://127.0.0.1:8003`) yo'naltirilgan bo'lishi kerak. Static va Media fayllar uchun `alias` ko'rsatilishi shart.
+
+### PM2:
+Backend `gunicorn` va `ecosystem.config.js` orqali boshqariladi.
+- Start: `pm2 start ecosystem.config.js`
+- Restart: `pm2 restart madaniy-hayot-backend`
+- Logs: `pm2 logs madaniy-hayot-backend`
 
 ---
 
